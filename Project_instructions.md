@@ -64,7 +64,7 @@ R markdown file
 - If your document has figures included (it should) then they should have been 
 placed in the figures/ directory by default (unless you overrided the default). 
 Add and commit the figures/ directory to yoru git repository (If the figures/ folder
-does not appear, type `knit2html("myfile.Rmd") on your R console).
+does not appear, type `knit2html("myfile.Rmd")` on your R console).
 - Push your master branch to GitHub.
 - Submit the URL to your GitHub repository for this assignment to f.colon@uea.ac.uk
 - A valid submission would look something like:
