@@ -56,6 +56,7 @@ Show any code that is needed to
 
 To submit the assignment:
 
+- Fork this [repo](https://github.com/FelipeJColon/Reproducible_Research/)
 - Commit the your completed template.Rmd file to the master branch of your GitHub 
 repository (you should already be on the master branch unless you created new ones)
 - Commit also the template.md and template.html files produced by processing your 
