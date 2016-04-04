@@ -42,7 +42,7 @@ following email (f.colon@uea.ac.uk).
 ## Loading and preprocessing the data
 Show any code that is needed to
 
-  - Load the data (i.e. read.csv())
+  - Load the data
   - Process/transform the data (if necessary) into a format suitable for your analysis
 
 ## Questions
