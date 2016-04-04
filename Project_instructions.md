@@ -13,7 +13,7 @@ The variables included in this dataset are:
 
   - *X*: An index variable of time
   - *time*: Time in quarters of a year
-  - UKgas: Gas consumption (in millions of therms)
+  - *UKgas*: Gas consumption (in millions of therms)
 
 The dataset is stored in a comma-separated-value (CSV) file and there are a total of 108 observations in this dataset.
 
