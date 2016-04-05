@@ -50,7 +50,9 @@ Show any code that is needed to
 - What is mean annual UK gas consumption? which year had the greatest gas consumption?
 - Make a histogram of the total UK gas consumption
 - Calculate and report the mean and median UK gas consumption for the whole period
-- Make a time series plot (i.e. type = "l") of time (x-axis) and the **average** annual gas consumption (y-axis)
+- Make a time series plot (i.e. type = "l") of time (x-axis) vs. annual gas consumption (y-axis)
+- Create a factor variable for each year and create a box and whisker plot of gas consumption
+  as a function of year
 
 ## Submitting the Assignment
 
