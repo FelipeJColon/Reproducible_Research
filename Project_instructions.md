@@ -70,11 +70,17 @@ To submit the assignment:
   placed in the figures/ directory by default (unless you overrided the default). 
   Add and commit the figures/ directory to yoru git repository (If the figures/ folder
   does not appear, type `knit2html("myfile.Rmd")` on your R console).
-- Push your master branch to GitHub.
+- Push your master branch to GitHub
 - Submit the URL to your GitHub repository for this assignment to f.colon@uea.ac.uk
-- A valid submission would look something like:
+      - A valid submission would look something like:
 
-`https://github.com/FelipeJColon/Reproducible_Research/`
+        `https://github.com/FelipeJColon/Reproducible_Research/`
+
+- Upload your submission file to RPubs too and submit the URL to your file
+  to the same account (f.colon@uea.ac.uk)
+      - Your submission would be something like:
+      
+        `http://rpubs.com/FelipeJColon/149097`
 
 
 
