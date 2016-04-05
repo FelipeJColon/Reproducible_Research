@@ -79,9 +79,6 @@ To submit the assignment:
 - Upload your submission file to RPubs too and submit the URL to your file
   to the same account (f.colon@uea.ac.uk)
       - Your submission would be something like:
-      
+
         `http://rpubs.com/FelipeJColon/149097`
-
-
-
 
