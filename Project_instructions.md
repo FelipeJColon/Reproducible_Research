@@ -61,7 +61,7 @@ To submit the assignment:
 - Fork this [repo](https://github.com/FelipeJColon/Reproducible_Research/)
 - Update the `README.md` file with an executive summary of your analysis as well as 
   any information relevant for its reproducibility (e.g. packages required, 
-  software versions, etc)
+  software versions, etc - see [slide 66](http://rpubs.com/FelipeJColon) for more details)
 - Commit the your completed `template.Rmd` file to the master branch of your GitHub 
   repository (you should already be on the master branch unless you created new ones)
 - Commit also the template.md and template.html files produced by processing your 
