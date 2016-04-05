@@ -57,14 +57,17 @@ Show any code that is needed to
 To submit the assignment:
 
 - Fork this [repo](https://github.com/FelipeJColon/Reproducible_Research/)
-- Commit the your completed template.Rmd file to the master branch of your GitHub 
-repository (you should already be on the master branch unless you created new ones)
+- Update the **README** file with an executive summary of your analysis as well as 
+  any information relevant for its reproducibility (e.g. packages required, 
+  software versions, etc)
+- Commit the your completed `template.Rmd` file to the master branch of your GitHub 
+  repository (you should already be on the master branch unless you created new ones)
 - Commit also the template.md and template.html files produced by processing your 
-R markdown file
+  R markdown file
 - If your document has figures included (it should) then they should have been 
-placed in the figures/ directory by default (unless you overrided the default). 
-Add and commit the figures/ directory to yoru git repository (If the figures/ folder
-does not appear, type `knit2html("myfile.Rmd")` on your R console).
+  placed in the figures/ directory by default (unless you overrided the default). 
+  Add and commit the figures/ directory to yoru git repository (If the figures/ folder
+  does not appear, type `knit2html("myfile.Rmd")` on your R console).
 - Push your master branch to GitHub.
 - Submit the URL to your GitHub repository for this assignment to f.colon@uea.ac.uk
 - A valid submission would look something like:
