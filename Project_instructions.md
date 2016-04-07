@@ -28,7 +28,7 @@ document that can be processed by knitr and be transformed into an
 
 Throughout your report make sure you always include the code that you used 
 to generate the output you present. When writing code chunks in the R markdown 
-document, always use echo = TRUE so that someone else will be able to read 
+document, always use `echo = TRUE` so that someone else will be able to read 
 the code. It is essential that your peers are able to review the code used for 
 your analysis.
 
