@@ -15,7 +15,8 @@ The variables included in this dataset are:
   - *time*: Time in quarters of a year
   - *UKgas*: Gas consumption (in millions of therms)
 
-The dataset is stored in a comma-separated-value (CSV) file and there are a total of 108 observations in this dataset.
+The dataset is stored in a comma-separated-value (CSV) file and there are a 
+total of 108 observations in this dataset.
 
 ## Assignment
 
@@ -36,8 +37,8 @@ system in R (i.e., `base`, `lattice`, `ggplot2`)
 
 Fork/clone the GitHub repository created for this assignment. Push your 
 completed files into your forked repository on GitHub. The assignment 
-submission will consist of the URL to your GitHub repository to the
-following email (f.colon@uea.ac.uk).
+submission will consist of the URL to your GitHub repository and
+your RPubs page to, at least, three other attendants via email.
 
 ## Loading and preprocessing the data
 Show any code that is needed to
@@ -71,7 +72,9 @@ To submit the assignment:
   Add and commit the figures/ directory to yoru git repository (If the figures/ folder
   does not appear, type `knit2html("myfile.Rmd")` on your R console).
 - Push your master branch to GitHub
-- Submit the URL to your GitHub repository for this assignment to f.colon@uea.ac.uk
+- The idea is that other people are able to exactly reproduce your results, so submit
+  the URL to your GitHub repository for this assignment via email to at least three 
+  other people. You would also need to give feedback to at least three other people.
       - A valid submission would look something like:
 
         `https://github.com/FelipeJColon/Reproducible_Research/`
