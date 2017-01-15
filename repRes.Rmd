@@ -1,0 +1,1319 @@
+---
+title: "Reproducible Research"
+author: |
+        | Felipe J Colon-Gonzalez
+        | School of Environmental Sciences
+date: "16 January 2017"
+output: 
+     ioslides_presentation:
+          logo: uea_logo.png
+---
+
+## Overview
+1. Introduction to Reproducible Research
+2. Markdown
+3. R Markdown
+4. File Management
+5. Dynamically Importing Data
+6. Version Control
+7. RPubs
+8. Reproducibility Checklist
+
+
+## 1. Introduction to Reproducible Research
+
+
+## Introduction 
+- The ultimate goal for scientific evidence is ***replication***
+       - Independent people conducting independent studies with different data, 
+       methods, and laboratories, to see if they get the same result as someone
+       else (Peng, 2016)
+- The problem is that replication may not always be possible
+       - Studies are getting larger 
+       - Big studies demand a lot of money which may not be available
+       - A study design may require following individuals for long period of 
+       time (e.g. 5-20 years)
+       - Some studies are just unique (e.g. the Fukushima incident or the 
+       Sverdlovsk anthrax leak)
+- The worst standard would be to ***do nothing***  
+
+
+## Reproducibility
+- Bridges the gap between replicability and doing nothing
+- Make data, and code available to others so they can verify your analyses
+and, if possible, validate your results
+- According to Peng (2016) Reproducibility requires:
+       - All data an metadata ***made available***
+       - Fully specified and ***readable code*** that allows scrutinizing the 
+       computer programs used
+       - Detailed description of the ***steps followed*** in the data analysis
+
+
+## Reproducibility from scratch
+- Often we start thinking about making our work reproducible late
+       - when a journal editor asks for the data and code for peer-review 
+       or publication, or
+       - when other researchers ask if they can get your data to reproduce your 
+       findings  
+
+## Reproducibility from scratch
+- By then, **_you may already have multiple versions_** of the dataset and the
+methods in your computer (or even multiple computers!)  
+- Going through all files to accurately recreate what has been done could be 
+a real pain  
+- Focusing on reproducibility from the beginning may help you avoid these 
+problems 
+
+
+## Reproducibility - advantages
+- Reproducible research reduces the amount of time other people have to 
+spend gathering data or developing procedures that are already available for
+analysis
+<br>
+- Making a project reproducible from scratch usually forces people to use 
+**_better work habits_**
+       - Your code should make it easy for independent researchers to reproduce 
+       your findings
+       - If your code is too cryptic it will be hard to tell if there are any 
+       errors in the analysis  
+
+## Reproducibility - advantages
+- Designing your research to be reproducible makes it much easier to change 
+things at a later stage (irrespectively of whether changes are due to a journal 
+reviewers’ comments or you discover a better dataset or method) 
+<br>
+- Reproducible research is more likely to be useful to other researchers than 
+non-reproducible research
+
+
+## Some Tips for Reproducibility
+- A few tips may allow you organize your research process 
+       - Document everything! (really, everything)
+       - Use human readable formatting 
+       - Tie all your files together
+
+
+## Document everything!
+- Reviewers and other researchers should be able to **_exactly reproduce_** your 
+analyses from raw data to final results
+- Instructions should be made explicit
+       - A **_code book_** detailing information about the variables in the
+       set, the methodological choices you  made, the experimental or 
+       analytical design, and the file versions used in the final report is 
+       very useful
+       - You may need to amend or re-write a paper or chapter  
+<br>
+- Documenting basic things such as documenting your  ***R session*** 
+information and the ***operating system*** you used the software on prevent 
+your code to crash in another computer
+       - small changes in package versions or across OS that may result in 
+       different results (e.g. random number seeds)  
+
+
+## Text files
+- Store your documentation in ***text files*** which are easy to manipulate by a
+range of programmes and are easy to version
+       - `.R` files are text files and can be produced in any text editor!  
+<br>
+- Documentation should be in a ***human readable*** format 
+       - Add comments to your code to communicate its design and purpose  
+
+## Text files
+- For important pieces of code use ***literate programming*** (i.e. the code and
+the presentational text describing its purpose and design are in the same 
+document)  
+<br>
+- Format your code using a ***style guide***
+
+
+## Literate programming - example
+- Literate programming requires:
+    - A documentation language (human readable, e.g. `markdown`)
+    - A programming language (machine readable, e.g. `R`)
+
+<br>
+![](lit_prog.png)
+
+
+## Coding standards
+- You could use 
+[Advanced R](http://adv-r.had.co.nz/Style.html) style guide to get started
+<br>
+- You do not need to follow a particular guide, but having some code standards 
+may help your code be easier to read
+       - e.g. set the maximum line length to 80 characters
+       - Indent your code! minimum 4 spaces
+       - do not place spaces around code in brackets  
+       - assign objects using `<-` and not `=` or `->`
+
+
+## Code style
+Which one is easier to go through?
+
+```r
+# Version 1
+plot(x    = dat.supp,
+     y    = len.mm,
+     ylim = ylim,
+     xlab = "date",
+     ylab = metric,
+     main = (paste0(metric, " for 3 samples ")))
+
+# Version 2
+plot(x=dat.supp,y=len.mm,ylim=ylim,xlab="date",ylab=metric,main=(
+paste0(metric," for 3 samples ")))
+```
+
+
+## Code style
+
+```r
+# Assign to objects and spacing
+> x <- rnorm(100)  
+
+> x = rnorm( 100 )   
+
+> 23 -> maxValue  
+
+# Use prefixes for tied files
+> 0-download.R
+> 1-parse.R
+> 2-explore.R
+```
+
+## Code style
+- Whenever possible, **_avoid using names of existing functions and variables_**
+- Give sensible names to variables and functions
+<br>
+
+```r
+> T <- FALSE
+
+> c <- 10
+
+> mean <- function(x) sum(x)
+```
+
+
+## Tie Your Files Together
+- Usually, research projects include a range of individual files that have a 
+relationship with each other  
+<br>
+- Often these relationships between files are not documented 
+<br>
+- Tie commands (such as `source()` and `read.table()`) are the most efficient 
+way to explicitly link your files (we'll discuss them later)  
+<br>
+- Files need to be accessible and organized so that others can easily understand
+what files were used in your analysis, and how they fit together  
+
+
+## Reproducible Documents
+- Document your analysis **as you go**
+- Relying on your memory may come back to bite you
+- Tools like `Markdown`, `R Markdown`, `knitr` and `RStudio` are extremely 
+useful to document your analyses as you do them
+- You can preserve the `R` code as well as any kind of a written summary of your analysis in a single document using these tools
+- We will cover how to use these tools in the following sections
+
+
+## 2. Markdown  
+
+
+## What is Markdown?  
+
+> _"Markdown is a text-to-HTML conversion tool for web writers. Markdown allows
+you to write using an easy-to-read, easy-to-write plain text format, then 
+convert it to structurally valid XHTML (or HTML)."_
+
+<br>
+<div class="centered">
+John Gruber, creator of Markdown
+</div>
+
+## Markdown
+- Essentially, `Markdown` is just a way to write web content
+- It is written in **_plain text_** allowing you to focus on writing as opposed 
+to formatting
+- There are some simple (and minimal) formatting elements that are easy to get
+used to, so the learning curve is really gentle
+- Formatting text in Markdown is **_extremely simple_**
+       - All you have control of is things like italicising, making fonts bold, 
+       creating headers, and organizing lists
+
+
+## Markdown Syntax
+- Please go to the Dillinger site http://dillinger.io where you will find a 
+very useful GUI to learn the basics of the Markdown syntax
+
+![](dillinger2.png)
+
+
+## Markdown syntax - Italics and Bold
+- To _italicise_ a word, surround it with underscores  
+- To make words or phrases **bold** surrond them with two asterisks
+- You can have _words in italics_ and **in bold font** in the same line!
+- Or even **_in italicised bold font_** if you want to
+<br>  
+
+```markdown
+$ To _italicise_ a word, surround it with underscores
+
+$ To make words or phrases **bold** surrond them with two asterisks
+
+$ You can have _words in italics_ and **in bold font** 
+on the same line!
+
+$ Or even **_in italicised bold font_** if you want to
+```
+
+
+## Markdown Syntax - Headers
+- There are six types of headers in Markdown:
+
+```markdown
+$ # Header 1
+$ ## Header 2
+$ ### Header 3
+$ #### Header 4
+$ ##### Header 5
+$ ###### Header 6
+```
+
+
+## Markdown Syntax - Links
+- There are two different link types in Markdown
+- The first link style is called **_inline link_**
+       - To create one, wrap the link text in squared brackets, and then wrap
+       the link in brackets  
+       
+       - e.g. [Visit GitHub!](http://www.github.com)
+
+```markdown
+$ [Visit GitHub!](http://www.github.com)
+```
+
+
+## Markdown Syntax - Links
+- The second link type is called a **_reference link_**
+- Here, the link is a reference to another object in the document
+- An advantage of the reference links is that multiple links to the same place 
+only need to be updated once
+
+## Markdown Syntax - Links
+Here's [a link to Github][github], and here's
+[a link to Google][google].
+And now, here's a link back to [the first link][github].  
+
+[github]: http://www.github.com
+[google]: http://www.google.com
+
+
+```markdown
+$ Here's [a link to Github][github], and here's 
+$ [a link to Google][google].
+$ And now, here's a link back to [the first link][github].  
+
+$ [github]: www.github.com
+$ [google]: www.google.com
+
+```
+
+## Markdown Syntax - Images
+- To add images to a markdown document, the syntax is very similar to that for
+a link
+- The difference is that an image is preceded by an exclamation mark
+- Images also have two styles, just like links
+```markdown
+$ ![](http://gadgetsin.com/uploads/2010/10/
+                    D_is_for_Darth_by_joewight.jpg)
+$ ![][chewie]
+$ [chewie]: http://gadgetsin.com/uploads/2010/10/
+                    C_is_for_Chewie_by_joewight.jpg
+```
+
+
+## Markdown Syntax - Images
+
+![](http://gadgetsin.com/uploads/2010/10/D_is_for_Darth_by_joewight.jpg) 
+
+
+
+## Markdown Syntax - Images
+![][chewie]
+
+[chewie]: http://gadgetsin.com/uploads/2010/10/C_is_for_Chewie_by_joewight.jpg
+
+
+## Markdown Syntax - Block Quotes
+- To create a block quote, preface a line with the "greater than" character
+
+```markdown
+> "In a few moments he was barefoot, his stockings folded in 
+> his pockets and his canvas shoes dangling by their knotted 
+> laces over his shoulders and, picking a pointed salt-eaten 
+> stick out of the jetsam among the rocks, he clambered down
+> the slope of the breakwater."
+```
+
+
+## Markdown Syntax - Newlines
+- Newlines require a double space after the end of a line (varies
+between OS and `markdown` versions)
+
+```markdown
+First line
+Second line
+```
+<br>
+First line
+Second line
+
+```markdown
+First line
+Second line
+```
+<br>
+First line  
+Second line
+
+
+
+## Markdown Syntax - Unordered Lists
+- To create an unordered list, preface each item with an asterisk or a dash
+- To add more levels indent the asterisk/dash **_four spaces_** more than the
+preceding item
+- You could add sub-lists indefinitely, but it may be a good idea to stop after 
+three levels
+
+```markdown
+- first item 
+- second item
+* third item 
+    - second level  
+        - third level
+```
+
+
+
+## Markdown Syntax - Ordered Lists
+- An ordered list is prefaced with numbers, instead of asterisks
+- Notice that Markdown and R Markdown will assign the correct list number in
+case of an error
+
+```markdown
+1. first item  
+3. second item  
+5. third item   
+4. fourth item  
+    a. second level
+        - third level
+```
+
+
+## Markdown Syntax - Lists
+- You can add _italics_, **bold**, or [links](http://google.com) to any of your lists
+- Notice that you **_must_** leave a blank line between text and lists
+
+```markdown
+Mosquito-borne disease vectors:  
+
+- Malaria (_Anopheles gambiae_)  
+- Dengue (_Aedes aegypti_)  
+- Zika (_Aedes albopictus_)
+```
+<br>
+Mosquito-borne disease vectors:  
+
+- Malaria (_Anopheles gambiae_)  
+- Dengue (_Aedes aegypti_)  
+- Zika (_Aedes albopictus_)
+
+
+## Markdown Syntax - Equations
+- You can build equations in Markdown exactly as you would in `LaTeX`
+
+```markdown
+# Subscripts and superscripts
+$$X_{i}$$ 
+$$X_{i,j}$$
+$$X^{e}$$
+```
+<br>
+$$X_{i}$$
+$$X_{i,j}$$
+$$X^{e}$$
+
+## Markdown Syntax - Equations
+
+```markdown
+# Subscripts and superscripts on the same argument
+$$X^2_{i,j}$$
+
+# Sqrt
+$$\sqrt{b^2 - 4ac}$$
+
+# Fraction
+$$\frac{4z^3}{16}$$
+```
+<br>
+$$X^2_{i,j}$$
+$$\sqrt{b^2 - 4ac}$$
+$$\frac{4z^3}{16}$$
+
+
+## Markdown Syntax - Equations
+
+```markdown
+# Summation expressions
+$$\sum_{i=1}^{n} X^3_i$$
+
+# Self-sizing brackets
+$$\sum_{i=1}^{n} \left( \frac{X_i}{Y_i} \right)$$
+```
+<br>
+$$\sum_{i=1}^{n} X^3_i$$
+<br>
+$$\sum_{i=1}^{n} \left( \frac{X_i}{Y_i} \right)$$  
+
+
+## Markdown Syntax - Equations
+
+```markdown
+# Greek letters and special characters
+$$\alpha, \sigma, \beta, \delta, \Delta, \gamma, \Gamma$$
+
+$$a \pm b$$
+$$x \ge 15$$
+$$a_i \ge 0~~~\forall i$$ # Tilde here allocates blanks
+```
+<br>
+$$\alpha,  \sigma, \beta, \delta, \Delta, \gamma, \Gamma$$
+$$a \pm b$$
+$$x \ge 15$$
+$$a_i \ge 0~~~\forall i$$
+
+
+## Markdown Syntax - Equations
+
+```markdown
+# Special functions
+$$\int_0^{2\pi} \sin x~dx$$
+
+$$\frac{dy}{dt} = - y(\gamma - \delta  x)$$
+
+$$g(\mu_{it}) = \alpha + log(d_{it}) + 
+                         t' + \beta(e_{it}) + w_{it}$$
+```
+<br>
+$$\int_0^{2\pi} \sin x~dx$$  
+
+$$\frac{dy}{dt} = - y(\gamma - \delta  x)$$
+
+$$g(\mu_{it}) = \alpha + log(d_{it}) + 
+t' + \beta(e_{it}) + w_{it}$$
+
+
+## Markdown Syntax - Equations
+
+```markdown
+# Matrices (for some reason they don't work on Dillinger)
+$$\mathbf{X} = \left[\begin{array}
+{rrr}
+1 & 2 & 3 \\
+4 & 5 & 6 \\
+7 & 8 & 9
+\end{array}\right]
+$$
+```
+<br>
+$$\mathbf{X} = \left[\begin{array}
+{rrr}
+1 & 2 & 3 \\
+4 & 5 & 6 \\
+7 & 8 & 9
+\end{array}\right]
+$$
+
+
+## Markdown Syntax - DIY
+- Using the text in the box below, make the word "this" italicised and bold, 
+and have it linked to www.bbc.co.uk using an inline link
+
+```markdown
+You're really, really going to want to see this!
+```  
+<br>
+- Make the following text a **_heading four_**, and turn the phrase _"the BBC"_
+into a link to www.bbc.com/news using a reference
+
+```markdown
+The Latest News from the BBC are here!
+```
+
+
+## Markdown Syntax - DIY
+- Try to produce a list similar to the one below
+
+![](list.png)
+
+
+## 3. R Markdown
+
+
+## R markdown
+- Integrates **_R code_** with **_Markdown_**
+- Documents written in R Markdown have **_live_** R coded nested within them 
+- The results from the embeded R code are inserted into the Markdown document 
+- R markdown files can be converted to standard Markdown using the `knitr`
+package
+- Subsequently, the Markdown file can be converted into HTML with `markdown` 
+package
+- The final output may be an HTML page, a PDF document or a DOC file depending
+on your computer configuration
+- Here, we will **_only_** produce HTML files 
+
+
+## Your First R Markdown Document
+- To create a new Markdown document, click on the menu in the upper left hand 
+side on **_Rstudio_**
+
+![](rmarkdown.png)
+
+
+## Your First R Markdown Document
+- RStudio will prompt you with a dialog box to set some metadata for the
+document
+- Feel free to either fill it out now or just click _OK_
+- You can **_always_** make changes to this information later
+
+![](metadata.png)
+
+
+## Your First R Markdown Document
+- RStudio creates a new R Markdown document with some example text
+- Take a look at it to get an idea of how R Markdown documents are written
+
+![](start.png)
+
+
+## Your First R Markdown Document
+- When you are ready to process and view your document, click on the **_Knit
+HTML_** button on the top of the editor window
+
+![](knit.png)
+
+
+## Your First R Markdown Document
+- If you are not using R Studio, type the following on the console:
+
+```r
+> library(knitr) 
+> knit2html("document.Rmd") 
+> browseURL("document.html")
+```
+## Got an error?
+
+- If `knit2html()` gives you the following error
+
+```markdown
+Error in knit2html("document.Rmd") : 
+  It seems you should call rmarkdown::render() instead 
+  of knitr::knit2html()  because document.Rmd appears 
+  to be an R Markdown v2 document.
+```
+<br>
+then you will need to use `rmarkdown::render("document.Rmd")` 
+instead  
+
+
+## Your First R Markdown Document
+- Your output should look more or less like the figure below
+- Notice some code is printed
+
+![width](output.png)
+
+
+## Your First R Markdown Document
+- By default, `markdown` or `knitr` will create just an HTML file
+- If you want to also create the corresponding Markdown (`.md`) file, you 
+need to change the settings
+_ In the end, you should have three documents (`.Rmd`, `.html` and `.md`)
+
+![width](keepmd.png)
+
+
+## Customizing your document
+- You should have noticed that R code chunks begin with 
+
+```r
+$ ```{r}
+```
+<br>
+and end with just 
+<br>
+```r
+$ ```
+```
+<br>
+- Any R code that you want R to evaluate **_must_** be contained within these 
+delimiters, unless you have **_inline code_** (more on this later)
+
+
+## Customizing your document
+- Code chunks have labels which are used when a code chunk creates a plot or
+the output is cached for future use. If you don't give the chunk a label, R will
+assign one to it (e.g. `unnamed-chunk-1`)
+- By default, all code and comments in a chunk are printed out to the document, 
+- If you choose **_NOT to_** print the R code in the resulting document, you 
+need to add `echo=FALSE` to the chunk-level arguments
+- 
+
+```markdown
+# Note that all labels and code chunk options must be on 
+# the same line and separated by commas
+
+$ ```{r chunkLabel, echo=FALSE}
+$ summary(cars)
+$ ```
+```
+
+## Customizing your document
+- You can hide your results with `results='hide'`
+- This is very handy when you do not want to show all the computations that
+lead to the creation of a plot or table, or when you aim to use a result for
+an **_inline_** computation
+
+```{r mytime, echo=TRUE, results='hide'}
+# ```{r mytime, echo=FALSE, results='hide'}
+time <- Sys.time()
+x    <- rnorm(100, mean=20, sd=2)
+mu   <- mean(x)
+# ```
+
+# Today is **`r time`** and the balance in my current
+#  account is just **`r round(mu, digits = 2)`** pounds!
+```
+
+Today is **`r time`** and the balance in my current account is 
+just **`r round(mu, digits = 2)`** pounds!
+
+## Customizing your document
+- You may have noticed that R will evaluate a code line and put the results
+immediately after it
+- You can also push all results to the end of a chunk with `results='hold'`
+
+```r
+$```{r}
+$ 2 + 2
+$ 3 + 3
+$ 4 + 4
+$```
+
+$```{r, results="hold"}
+$ 2 + 2
+$ 3 + 3
+$ 4 + 4
+$```
+```
+
+## Customizing your document
+- You may decide **_NOT_** to evaluate a code chunk, or to evaluate particular 
+parts of it
+- To do so, add the `eval=FALSE` or an `eval=c(2,3)` like argument 
+to the chunk options
+
+```r
+$```{r, eval=FALSE}
+$ 2 + 2
+$ 3 + 3
+$ 4 + 4
+$```
+
+$```{r, results="hold", eval=c(1, 3)}
+$ 2 + 2
+$ 3 + 3
+$ 4 + 4
+$```
+```
+
+
+## Customize graphics
+- You have seen that you can generate and display plots in the document
+- You can change the height, width, alignment and several other options
+by modifying the chunk-level arguments
+
+![](height.png)
+
+
+## Add Tables
+- Tables can be **_extremely non-reproducible_** if generated by hand
+- Tables can be easily generated in a reproducible manner with the `xtable` 
+package which takes tabular information and formats it in either HTML or LaTeX
+formats
+- In the chunk options, you should specify `results="asis"` otherwise 
+your table will not be displayed correctly
+
+![](xtable.png)
+
+
+## Setting Global Options
+- Sometimes you may want to set an option that applies to **_all chunks_**
+- This can be done modifying the `opts_chunk` variable in `knitr` 
+- You do that by creating a code chunk somewhere in the beginning of the 
+document and modifying the `opts_chunk` object (see `?opts_chunk`)
+- For example, we can modify the default so that all chunks **_do not print_** 
+the R code and **_always_** hide the results
+- To know more about the different chunk options visit the [knitr](http://yihui.name/knitr/options/#chunk_options) or [R Markdown](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf) pages
+
+
+## Setting Global Options
+
+<br>
+![](global.png)
+
+
+## Caching computations
+- Each time you want to view your document in the formatted version, you need 
+to **re-compile**
+     - If your code chunks are quick and not too many, this is **_typically 
+     not a problem_**
+     - Otherwise, it can be a **_real pain_** having to wait for the file to 
+     compile each time you modify it
+- By setting `cache=TRUE` in the chunk options, the chunk runs once, and stores the output in a database in your `wd`
+
+## Caching computations
+- When you re-compile the `knitr` re-loads the stored output from the database 
+- If the code in the chunk changes at all, `knitr` re-run the code
+- `Warning!` Dependencies between chunks **_are not checked_**, and so if the 
+results of a cached chunk depend on a previous modified chunk that has been 
+modified, those changes **_may not propogate_** to later cached chunks
+
+
+## 4. File Management
+
+
+## Directories
+- Windows, Linux and Mac OS organize files in a hierarchical manner with 
+directories located inside of other directories
+     - A **_root directory_** is the first level in a disk (the root out of 
+     which the file tree grows)
+     - All other directories are **_sub-directories_**
+- In Windows, `C:\` is a root directory
+- In Unix systems, the root directory is denoted by a forward slash (`/`)
+- The paths to directories in R must be given in quotes
+
+
+## Setting Directory Paths - Windows
+- The **_path_** to subdirectories in Windows is typically of the form
+       - `"C:\Documents\Data\ReprResearch"`
+       
+- In R, the backward slash is used to denote several things (e.g. `\t` indicates
+a tab and `\n` is a new line)
+- Thus, you need to use two backslashes instead of one
+       - `"C:\\Documents\\Data\\ReprResearch"`
+
+- Alternatively, you can use single forward slashes  
+       - `"C:/Documents/Data/ReprResearch"`
+
+
+## Setting Directory Paths - Unix
+- The **_path_** to subdirectories in Unix systems is of the form
+       - `"/home/user/directory"` (*absolute path*) or 
+       - `"~/directory"`  (*relative path*)  
+
+
+## File and Directory Name Conventions
+- It is good practice to **_avoid putting spaces_** in file and directory names
+- **_Spaces are (very) problematic_** when R tries to read a file path because 
+it believes that the space indicates that the path name has ended
+- Multi-word names can be made readable by adopting a convention such as [CamelBack](https://en.wikipedia.org/wiki/CamelCase)
+       - e.g. use `ExampleProject` instead of `Example Project`
+
+
+## Create a README file
+- It is good practice to create a README file for each project
+- This file should give an overview of all the files in the project and briefly 
+describe the project including things such as:
+       - _Authors and contact information_ 
+       - _Input file configuration instructions_
+       - _Special packages installation instructions_
+       - _Operating instructions_
+       - _A list of files included_
+       - _Copyright and licensing information_
+       - _Known bugs_
+       - _Troubleshooting_
+       - _Credits and acknowledgments_
+       - _Updates_
+
+
+## File Management Commands
+- R has a wide range of commands for files management
+       - `getwd()` and `setwd()`
+       - `dir()` and `list.files()`
+       - `dir.create()` and `unlink()`  **# Be really careful with unlink()**
+       - `file.path()` and `file.exists()`
+       - `file.edit()`, `file.copy()` and `file.rename()`
+       - `source()`
+
+## File Management Commands
+```r
+# Create folder if !exist
+if(!file.exists("newFolder")){ 
+    dir.create("newFolder")
+ }
+
+# Create empty file
+file.create(file.path("newFolder", "newFile.R")) 
+
+# Edit file 
+file.edit(file.path("newFolder", "newFile.R"))   
+
+# Delete folder and contents
+unlink("newFolder", recursive=TRUE)              
+```
+
+
+## 5. Dynamically Importing Data
+
+
+## Downloading Data
+- You can always **_download data by hand_**, but then you will need to provide 
+fully documented instructions to achieve reproducibility
+- You can dynamically download data using `download.file()` 
+- Important parameters are `url`, `destfile` and `method`
+- If the url starts with **_https_** and you are working on **_Unix_** you 
+need to specify `method="curl"` (not required under Windows)
+- Once a file is downloaded, you can use `read.table`, `read.csv` or `fread()`
+- Notice that **_data may change in the near future_**
+       - Thus, it is important you record the date when you accessed the file
+
+
+## Example: UK Traffic Counts
+Let's download UK Road Traffic Count data from the 
+[UK Gov Data Site](https://data.gov.uk/dataset/gb-road-traffic-counts)
+
+![](data.png)
+
+
+## Download the data
+
+```r
+# Assign URL to object
+> url1 <- "http://data.dft.gov.uk/gb-traffic-matrix/"
+> url2 <- "Traffic-major-roads-km.csv"
+> fileUrl <- paste0(url1, url2)
+
+# Download file
+> download.file(url=fileUrl, destfile="traffic.csv", method="curl")
+
+
+> list.files() # Verify download
+
+> data <- read.csv("traffic.csv") # Read data 
+
+> head(data[1:2,1:7]) # Explore some rows/columns
+
+> dateAccessed <- date() # Get date of access 
+```
+
+
+## Reading Data
+- You may want to read a file directly from the web **_without downloading it_**
+into your computer 
+       - perhaps you need to _clean_ the set first
+- This is possible using a so called **_file connection_**
+- `url()` creates a connection to the web server to allow you read data directly 
+from it
+- The `open="r"` argument opens a connection on **_read mode only_**
+- `close()` closes the connection with the server
+
+
+## Reading Data
+
+<br>
+```r
+> con <- 
+url("http://data.dft.gov.uk/gb-traffic-matrix/Traffic-major-roads-km.csv",
+            open="r")
+
+> traffic <- read.csv(con)
+
+> head(traffic[1:3,1:7])
+  Year CP ONS.GOR.Name     ONS.LA.Name  Road RCategory S.Ref.E
+1 2000 51   South West Isles of Scilly A3111        PR   90200
+2 2000 52   South West Isles of Scilly A3112        PR   91000
+3 2000 53   South West Isles of Scilly A3111        PR   91000
+
+> close(con)
+```
+
+
+## Reading Large Tabular Sets
+- You can read large tabular datasets with `fread()` from the `data.table`
+package
+- `fread()` is typically more efficient than `read.table()` which is great when 
+using big sets (some issues with online connections though)
+- Much faster at subsetting, group, and updating than `data.frame()`
+- Here **_we will not cover_** the whole functionality of the package but I
+encourage you to learn about it
+
+
+## Fast Reading
+
+```{r fast,cache=TRUE,message=FALSE}
+require(data.table)
+bigData <- data.frame(x=rnorm(1e6), y=rnorm(1e6))
+
+tempFile <- tempfile()
+
+write.table(bigData, file=tempFile, row.names=FALSE, col.names=TRUE, 
+            sep="\t", quote=FALSE)
+
+system.time(fread(tempFile))
+system.time(read.table(tempFile, header=TRUE, sep="\t"))
+```
+
+
+## Dynamically Reading Data with `data.table`
+<br>
+```{r, cache=TRUE, dependson='fast'}
+# Read from DropBox
+url1    <- "https://dl.dropboxusercontent.com/u/"
+url2    <- "15316004/mydata.csv" 
+fileUrl <- paste0(url1, url2)
+
+nitrate <- fread(fileUrl)
+```
+
+
+## Compressed Files Stored Online - .zip
+- Compressed files are very common for data sharing
+- You can both download and decompress files with R in a reproducible 
+fashion
+```{r, cache=TRUE,dependson='fast'}
+zip1    <- "http://d396qusza40orc.cloudfront.net/"
+zip2    <- "repdata%2Fdata%2Factivity.zip"
+zipFile <- paste0(zip1, zip2)
+download.file(zipFile, destfile="activity.zip")
+
+extractData <- unzip("activity.zip")      # Decompress file
+tabularData <- fread(extractData)         # Read data
+
+# Alternatively
+tabularData2 <- fread(unzip("activity.zip"))
+```
+
+
+
+## Compressed Files Stored Online - .gz
+<br>
+```r
+url1   <- "http://www.unified-democracy-scores.org/"
+url2   <- "files/20110104/uds_summary.csv.gz"
+newUrl <- paste0(url1, url2)
+temp <- tempfile()                 
+
+download.file(newUrl, temp)           # Download data to temp
+udsSumm <- read.csv(gzfile(temp, "uds_summary.csv"))
+unlink(temp)
+
+head(udsSumm[,1:5], n=3)
+        country year cowcode     mean        sd 
+1 United States 1946       2 1.098657 0.2954170 
+2 United States 1947       2 1.106365 0.2899292 
+3 United States 1948       2 1.063506 0.2553244 
+```
+
+
+## Reading Other Data Types
+- `twitteR` allows you to download data from Twitter including tweets and 
+trending topics
+- `WDI` is useful to download data directly from the World Bank's Development 
+Indicators database
+- The [`rOpenSci`](http://ropensci.org/packages/index.html) group has
+several packages for accessing scientific data from online sources including 
+academic journals
+- `RMySQL` was developed to interact with **_MySQL_** data bases
+- `rhdf5` allows the interaction with HDF5 databases
+
+
+## 6. Version Control
+
+
+## Version Control
+- We constantly create something, save it, change it, then save it again
+- Version Control Systems (VCS) manage this process in a reliable and efficient 
+manner
+- Especially important when collaborating with others
+- Primarily designed for software projects where code files are typically 
+small text files, but they can also be applied to large data analysis projects
+
+[http://en.wikipedia.org/wiki/Revision_control](http://en.wikipedia.org/wiki/Revision_control)
+
+
+## Version Control - Git
+- Popular version control systems these days are [Git](https://git-scm.com/), 
+[Apache Subversion](https://subversion.apache.org/), and 
+[Mercurial](https://www.mercurial-scm.org/)
+- `Git` is the one of the most (_if not the most_) popular VCS today
+- Everything can stored in local repositories on your computer and online
+- Can be easily operated from the command line or a GUI
+
+[http://git-scm.com/book/en/Getting-Started-A-Short-History-of-Git](http://git-scm.com/book/en/Getting-Started-A-Short-History-of-Git)
+
+
+## Version Control - GitHub
+_ There are many complementary web sites like [GitHub](https://github.com/), 
+[GitLab](https://about.gitlab.com/), and [BitBucket](https://bitbucket.org/)
+where you can showcase your projects
+- Here, I will focus on GitHub it allows you to easily interact with the online
+GUI
+
+
+## GitHub
+- `GitHub` is an interface and cloud hosting service built for `Git`
+- `Git` does the version control and `GitHub` stores the data remotely 
+
+## GitHub Advantages
+- Some of the advantages of `Git` are:
+       - **Keeps records** of who contributed what to a project
+       - It has a section to **note and discuss issues** with
+       collaborators
+       - You can **host a wiki for each repository**
+       - You can accept or decline other people's contributions (very useful 
+       when someone else finds a bug)
+       - `Git` will only create a new version of your file **when you
+       ask it to**
+       - Previous versions of your files are **_stored indefinitely_**
+       - If `Git` identifies conflicts between versions, it allows you to
+       reconcile them
+
+
+## Using GitHub
+- There are several ways to use `GitHub`:  
+       - Using the terminal (Unix) or 
+       [Git Bash](https://git-for-windows.github.io/) (Windows)
+       - Using the online interface
+       - Downloading the GUI (Windows and Mac)
+       - Through R Studio
+- Here, I will focus on the first two options to get you started
+
+
+## Setting Up an Account
+- To set up and account go the [GitHub web page](https://github.com/)
+click on **"Sign up"** and follow the instructions
+- **IMPORTANT: If you want to use GitHub with the terminal use the same email 
+address that you would use when setting up Git on your computer!**
+- You will be then prompted to a page with several options to learn more about
+how to use `Git` and `GitHub`
+
+![](github.png)
+
+
+## Creating a GitHub Repository
+- There are two methods for creating a repository
+     - Start a repository from scratch
+     - "Fork" someone else's repo
+- To create a New Repository click on the `create new` icon to create a new 
+repository
+
+![](newrepo.png)
+
+## Creating a GitHub Repository
+- Select **_Public_** (Private repos require a paid or education account)
+- Assign a name to it (e.g. `myFirstRepo`)
+- Check the box next to `Initialize this repository with a README`
+- Click the **Create repository** button
+
+
+## Creating a Local Copy - Terminal
+- If you work from the terminal, you need to create a copy of this repo on your 
+computer so that you can make changes to it
+- Open either Git Bash (Windows) or Terminal (Unix)
+- Enter the following commands in the console (one at a time) to define user 
+name and email (`--list` confirms the changes)
+
+```markdown
+$ git config --global user.name "Your User Name Here"
+$ git config --global user.email "your_email@example.com"
+$ git config --list 
+```
+- **Make sure there are 2 dashes side-by-side before the word "global"**
+
+
+## Creating a Local Copy - Terminal
+- Now, go to the directory where you would like to store the copy of the repo
+- Navigate to this new directory using `cd` ("change directory")
+- Initialize a local Git repository in this directory
+- Clone the repository 
+
+```markdown
+$ cd ~/Documents/GitHub_repos
+$ git init
+$ git clone https://github.com/your-user-name-goes-here/myFirstRepo.git
+```
+
+
+## Create a New Repository
+- Now let's:
+     - add a new file
+     - modify and re-upload the file
+     - see tracked changes
+     - fork someone else's repo 
+
+
+## Adding Changes with the Terminal
+- You need to let `Git` know that you want it to track a particular file
+     - `git add myfile` adds one file at the time
+     - `git add .` or `git add *` add all new files
+
+
+## Committing
+- The next step is called a `commit`
+- Here, you specify what changes have been made to the file (briefly)
+
+```markdown
+$ git commit -m "your message goes here"`
+```
+<br>
+- The command adds a description (notice the double quotes) of what changes 
+were made since the last committed changes 
+     - This only updates your local repo, not the remote repo on `GitHub`
+- To see a log of **_all the commits_** you've made to a repo, type 
+`git log` (exit the log typing `q`)
+
+
+## Pushing Changes to GitHub
+- The next step is to update the remote repo (`GitHub`)
+- To do so use 
+
+```markdown
+$ git push origin master
+```
+
+<br>
+- `origin` is your GitHub remote repo  
+- `master` is the default name of the branch you are working on
+
+
+## 7. RPubs
+
+
+## RPubs
+- Is an online platform to publish R markdown documents on the web
+- Developed by `RStudio`
+- You can do it with `RStudio` with the click of a button! 
+
+![](rstudio.png)
+
+
+## 8. Reproducibility Checklist
+
+
+## Don't Do Things By Hand!
+- Things done by hand need to be precisely documented (harder than it sounds)
+- Manually downloading data from a web site (whenever possible)
+- Reformatting data files
+
+
+
+## Avoid Pointing And Clicking
+- GUIs are convenient but the actions you take with a GUI can be difficult for
+others to reproduce
+- Some GUIs produce a log file or script which includes equivalent commands that
+can be saved for later examination
+- Be careful with data analysis software that is highly interactive as it may
+lead to non-reproducible analyses
+
+
+## Teach a Computer!
+- If something needs to be done as part of your analysis try to teach your 
+computer to do it 
+- Teaching a computer almost guarantees reproducibilty
+- For example, by hand, you can:
+
+  1. Go to the UCI Machine Learning Repository at
+  http://archive.ics.uci.edu/ml/
+  2. Download the [Bike Sharing
+  Dataset](http://archive.ics.uci.edu/ml/datasets/Bike+Sharing+Dataset)
+  by clicking on the link to the Data Folder, then clicking on the
+  link to the zip file of dataset, and choosing "Save Linked File
+  As..." and then saving it to a folder on your computer
+
+## Or You can teach your computer to do the same thing!
+
+```r
+url1   <- "http://archive.ics.uci.edu/ml/"
+url2   <- "machine-learning-databases/00275/"
+url3   <- "Bike-Sharing-Dataset.zip"
+newUrl <- paste0(url1, url2, url3)
+
+download.file(newUrl, destfile="Bike-Sharing-Dataset.zip")
+```
+
+- Code can always be executed in R (providing that the link is available)
+
+
+## Use Some Version Control
+- Add changes in small chunks (don't just do one massive commit )
+
+![](vcs.png)
+
+
+## Document Your Software Environment
+- If you work on a complex project involving many tools / datasets,
+  the software and computing environment can be critical for
+  reproducing your analysis
+     - **Computer architecture**: CPU (Intel, AMD, ARM), GPUs, 
+     - **Operating system**: Windows, Mac OS, Linux / Unix
+     - **Supporting software / infrastructure**: Libraries, R packages,
+     dependencies
+     - **External dependencies**: Web sites, data repositories, remote
+     databases, software repositories
+     - **Version numbers**: Ideally, for everything (if available)
+
+
+## Always Set Your Seed!
+- Random number generators generate pseudo-random numbers based on an
+  initial seed (usually a number or set of numbers)
+- In R you can use the `set.seed()` function to set the seed and to
+    specify the random number generator to use
+- Setting the seed allows the stream of random numbers to be reproducible
+
+
+## Some Useful `R`esources
+- [Report Writing for Data Science in R](https://leanpub.com/reportwriting) 
+(Roger D Peng) available (_for FREE_ if you want to) on LeanPub
+- Implementing Reproducible Research (Victoria Stodden, Friedrich Leisch, 
+Roger D. Peng) CRC Press
+- Reproducible Research with R and R Studio (Christopher Gandrud) CRC Press
+- [Markdown](https://daringfireball.net/projects/markdown/basics)
+- [R Markdown](http://rmarkdown.rstudio.com/)
+- [Good Resources for Learning Git and GitHub](https://help.github.com/articles/good-resources-for-learning-git-and-github/)
+- [Intro](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.pdf) to data.table
+- `data.table`
+[tutorial](https://www.datacamp.com/community/tutorials/data-table-r-tutorial)
+- `data.table`
+[cheat sheet](https://www.datacamp.com/community/tutorials/data-table-cheat-sheet)
+- [FAQ](http://datatable.r-forge.r-project.org/datatable-faq.pdf) about 
+`data.table`
+
+## Markdown Resources
+- [The Offical Markdown Documentation](http://daringfireball.net/projects/markdown/basics)
+
+- [Github's Markdown Guide](https://help.github.com/articles/github-flavored-markdown)
+
+
+
+## References
+- Several of these slides are based on the following sources: 
+     - [Report Writing for Data Science in R](https://leanpub.com/reportwriting) 
+     (Roger D Peng), and 
+     - Reproducible Research with R and R Studio (Christopher Gandrud) CRC Press
+     - Roger Peng and Jeff Leek's lectures notes on 
+     [Data Science](https://www.coursera.org/specializations/jhu-data-science)
+     (Coursera)
+
+
+
